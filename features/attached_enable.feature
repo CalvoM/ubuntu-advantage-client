@@ -1,6 +1,7 @@
 @uses.config.contract_token
 Feature: Enable command behaviour when attached to an UA subscription
 
+    @slow
     @series.xenial
     @uses.config.machine_type.lxd.container
     Scenario: Attached enable Common Criteria service in an ubuntu lxd container
@@ -330,6 +331,7 @@ Feature: Enable command behaviour when attached to an UA subscription
            | xenial  |
            | bionic  |
 
+    @slow
     @series.bionic
     @uses.config.machine_type.lxd.vm
     Scenario: Attached enable livepatch on a machine with fips active
@@ -391,6 +393,7 @@ Feature: Enable command behaviour when attached to an UA subscription
             Cannot enable FIPS when Livepatch is enabled.
             """
 
+    @slow
     @series.xenial
     @series.bionic
     @uses.config.machine_type.lxd.vm
@@ -431,6 +434,7 @@ Feature: Enable command behaviour when attached to an UA subscription
            | bionic  |
            | xenial  |
 
+    @slow
     @series.xenial
     @series.bionic
     @uses.config.machine_type.lxd.vm
