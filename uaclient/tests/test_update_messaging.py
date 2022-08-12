@@ -263,11 +263,9 @@ class Test_WriteESMServiceAPTMsgTemplates:
         """
         if service_name == "esm-infra":
             title = "Ubuntu Pro: ESM Infra"
-            pkg_count_var = "{ESM_INFRA_PKG_COUNT}"
             pkg_names_var = "{ESM_INFRA_PACKAGES}"
         else:
             title = "Ubuntu Pro: ESM Apps"
-            pkg_count_var = "{ESM_APPS_PKG_COUNT}"
             pkg_names_var = "{ESM_APPS_PACKAGES}"
         get_platform_info.return_value = platform_info
         m_entitlement_cls = mock.MagicMock()
@@ -294,9 +292,7 @@ class Test_WriteESMServiceAPTMsgTemplates:
             assert (
                 DISABLED_APT_PKGS_TMPL.format(
                     title=title,
-                    pkg_num=pkg_count_var,
                     pkg_names=pkg_names_var,
-                    eol_release=eol_release,
                     url=url,
                 )
                 == pkgs_file.read()

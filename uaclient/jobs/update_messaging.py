@@ -128,9 +128,7 @@ def _write_esm_service_msg_templates(
         ua_esm_url = defaults.EOL_UA_URL_TMPL.format(
             hyphenatedrelease=release.replace(".", "-")
         )
-        eol_release = "for Ubuntu {release} ".format(release=release)
     else:
-        eol_release = ""
         ua_esm_url = defaults.BASE_ESM_URL
     if ent.application_status()[0] == ApplicationStatus.ENABLED:
         if expiry_status == ContractExpiryStatus.ACTIVE_EXPIRED_SOON:
@@ -175,9 +173,7 @@ def _write_esm_service_msg_templates(
     elif expiry_status != ContractExpiryStatus.EXPIRED:  # Service not enabled
         pkgs_msg = DISABLED_APT_PKGS_TMPL.format(
             title=ent.title,
-            pkg_num=tmpl_pkg_count_var,
             pkg_names=tmpl_pkg_names_var,
-            eol_release=eol_release,
             url=ua_esm_url,
         )
         no_pkgs_msg = DISABLED_MOTD_NO_PKGS_TMPL.format(

@@ -1,4 +1,4 @@
-Feature: APT JSON Hook
+Feature: APT Messages
 
     @series.xenial
     @uses.config.machine_type.lxd.container
@@ -97,3 +97,52 @@ Feature: APT JSON Hook
         Examples: ubuntu release
            | release | standard-pkg                                                          | infra-pkg                                            | apps-pkg |
            | xenial  | accountsservice=0.6.40-2ubuntu10 libaccountsservice0=0.6.40-2ubuntu10 | curl=7.47.0-1ubuntu2 libcurl3-gnutls=7.47.0-1ubuntu2 | libzstd1=1.3.1+dfsg-1~ubuntu0.16.04.1 |
+
+    @series.xenial
+    @uses.config.machine_type.lxd.container
+    Scenario Outline: APT Hook advertises esm-infra on upgrade
+        Given a `<release>` machine with ubuntu-advantage-tools installed
+        When I run `apt-get update` with sudo
+        When I run `apt-get -y upgrade` with sudo
+        When I run `apt-get -y autoremove` with sudo
+        When I run `ua refresh messages` with sudo
+        When I run `apt-get upgrade` with sudo
+        Then stdout matches regexp:
+        """
+        Reading package lists...
+        Building dependency tree...
+        Reading state information...
+        Calculating upgrade...
+        An Ubuntu Pro: ESM Infra subscription also includes the following security updates:
+          .*
+        Learn more at https://ubuntu.com/16-04
+        0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+        """
+        Examples: ubuntu release
+          | release |
+          | xenial   |
+
+    @series.focal
+    @uses.config.machine_type.lxd.container
+    Scenario Outline: APT Hook advertises esm-apps on upgrade
+        Given a `<release>` machine with ubuntu-advantage-tools installed
+        When I run `apt-get update` with sudo
+        When I run `apt-get -y upgrade` with sudo
+        When I run `apt-get -y autoremove` with sudo
+        When I run `apt-get install hello` with sudo
+        When I run `ua refresh messages` with sudo
+        When I run `apt-get upgrade` with sudo
+        Then I will see the following on stdout:
+        """
+        Reading package lists...
+        Building dependency tree...
+        Reading state information...
+        Calculating upgrade...
+        An Ubuntu Pro: ESM Apps subscription also includes the following security updates:
+          hello
+        Learn more at https://ubuntu.com/esm
+        0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+        """
+        Examples: ubuntu release
+          | release |
+          | focal   |

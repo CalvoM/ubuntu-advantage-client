@@ -264,11 +264,9 @@ CONTRACT_EXPIRED_APT_NO_PKGS_TMPL = (
 
 
 DISABLED_APT_PKGS_TMPL = """\
-*The following packages could receive security updates \
-with {title} service enabled:
+An {title} subscription also includes the following security updates:
   {pkg_names}
-Learn more about {title} service {eol_release}at {url}
-"""
+Learn more at {url}"""
 
 APT_PROXY_CONFIG_HEADER = """\
 /*
